@@ -15,7 +15,9 @@
         body {
             background-image: url("image/earth2.jpg");
             background-size: cover;
-            background-repeat: inherit;
+
+
+
 
         }
 
@@ -30,11 +32,12 @@
 
         #header {
             text-align: center;
-            font-size: 3vw;
-            margin-top: 2%;
-            margin-bottom: -2%;
-            color: white;
+            margin-left:34%;
+            font-size: 2vw;
+
+            color: orange;
             font-family: aldrich;
+            display: inline;
 
         }
 
@@ -125,7 +128,7 @@
         }
 
         #start {
-            margin-top: 40%;
+            margin-top: 33%;
         }
 
         #blast {
@@ -137,10 +140,6 @@
             background-size: cover;
             background-position: center;
         }
-
-        /*#landing {*/
-            /*background-image: url("image/landing.gif");*/
-        /*}*/
 
         #ship2 {
             height: 300px;
@@ -154,6 +153,17 @@
 
         }
 
+        #maneuver {
+            font-size: 2vw;
+            position: relative;
+            right: -10.49em;
+            top: 6em;
+            color: red;
+            font-family: aldrich;
+        }
+
+
+
 
 
 
@@ -162,12 +172,14 @@
 </head>
 <body>
 
-<audio src="audio/01%20Trinity.m4a" autoplay></audio>
+<audi src="audio/01%20Trinity.m4a" autoplay loop></audi>
 
 
 <h1 id="topheader">Simple Simon</h1>
 
-<h1 id="header">Get back to Earth!</h1>
+<h1 id="header"><span>MISSION: Return back to Earth!</span></h1>
+
+<h1 id="maneuver">Maneuver <span id="round"></span></h1>
 
 <div id="ship"><img id="blast"></div>
 <div id="ship2"><img id="landing"></div>
@@ -207,7 +219,7 @@
     var yellow = $("#yellow");
     var green = $("#green");
     var sequence = [];
-
+    var round = 0;
 
 
     $('#header').each(function () {
@@ -218,7 +230,7 @@
             } else {
                 elem.css('visibility', 'hidden');
             }
-        }, 1000);
+        }, 1200);
     });
 
 
@@ -227,7 +239,7 @@
     function getRandom(min, max) {
         var random = Math.floor(Math.random() * 4);
         sequence.push(random);
-
+        $("#round").html(sequence.length);
         number();
     }
 
@@ -272,23 +284,35 @@
             $(this).fadeOut(200).fadeIn(200);
             if ($(this).attr("data-value") == sequence[i]) {
                 if (i == sequence.length - 1) {
-                   if (i == 7){
-//
-                       $("#ship2").show();
-                       $('document').addClass("flash");
-                   }
+                    if (i == 1) {
+                        //win//
+                        $("#ship2").show();
+                        $("#header").html("MISSION: ACCOMPLISHED!").css("color", "green").css("background-color","white").css("margin-left","36.3%");
+                       $("#yellow , #blue").css("border-right", "white");
+                        $("#red , #green").css("border-bottom", "white");
+                        $("body").css("background-image","url(image/forest1.jpg)");
+
+
+                    }
                     getRandom();
                     $('.btns').off("click");
                 }
                 i++;
 
-            }else{
+            } else {
                 // lose
                 $("#blast").show();
+                $("#header").html("MISSION: FAILED!").css("color","red");
+                var audio = new Audio('audio/Explosion.mp3');
+                audio.play();
             }
 
         });
     };
+
+
+
+
 
     $("#start").click(getRandom);
 
